@@ -2,6 +2,8 @@
 
 Maintains a jump-list of the directories you actually use.
 
+The original version of this program can be found at [github.com/rupa/z](https://github.com/rupa/z). The first version supporting Fish seems to be [github.com/sjl/z-fish](https://github.com/sjl/z-fish). I learned about `--on-variable PWD` from the version at [github.com/roryokane/z-fish](https://github.com/roryokane/z-fish/blob/master/z.fish). [Fish repository ticket](https://github.com/fish-shell/fish-shell/issues/981) asking about a Z equivalent for fish.
+
 # Install
 
 Clone this repository somewhere permanent, and then run the following command:
