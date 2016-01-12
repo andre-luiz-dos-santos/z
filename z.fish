@@ -14,10 +14,7 @@ function z --description "Jump to a recent directory"
 	set --local type 'frecent'
 	set --local tempfile
 	set --local target
-
 	set --local command cd
-	test (count $argv) -gt 0
-	or set command list
 
 	# Parse all the command line arguments before starting the program.
 	# Note: The "break" calls inside the switch will exit the while loop,
@@ -42,6 +39,10 @@ function z --description "Jump to a recent directory"
 		end
 		set -e argv[1]
 	end
+
+	test $command = cd
+	and test (count $argv) -eq 0
+	and set command list
 
 	set z_dir (dirname (status --current-filename))
 
