@@ -99,3 +99,9 @@ test_z_2 tmp   "Matches existing directory"
 
 test_z_complete "Complete with all directories on empty input"
 test_z_complete "Complete with directories that match every pattern"   c f ns
+
+begin # broken awk
+	function awk; echo "stdout is ignored"; echo "awk error message" ^&2; return 1; end
+	test_z "awk fails with exit code 1" fish
+	functions -e awk
+end

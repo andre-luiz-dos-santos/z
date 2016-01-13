@@ -97,6 +97,7 @@ exit 0
 <<< <<<
 
 >>> Matches middle of directory name - No slashes added - z [ef] >>>
+cd /tmp/z.test/home/user/abcdef/def
 exit 0
 pwd /tmp/z.test/home/user/abcdef/def
 --- cat ---
@@ -109,7 +110,8 @@ pwd /tmp/z.test/home/user/abcdef/def
 <<< <<<
 
 >>> Matches middle of directory name - Slash added before pattern - z [/ef] >>>
-exit 1
+No match was found!
+exit 3
 pwd /
 --- cat ---
 /tmp/z.test|1|1234567890
@@ -121,6 +123,7 @@ pwd /
 <<< <<<
 
 >>> Matches middle of directory name - Slash added after pattern - z [ef/] >>>
+cd /tmp/z.test/home/user/abcdef/abc
 exit 0
 pwd /tmp/z.test/home/user/abcdef/abc
 --- cat ---
@@ -133,7 +136,8 @@ pwd /tmp/z.test/home/user/abcdef/abc
 <<< <<<
 
 >>> Matches middle of directory name - Slashes added around pattern - z [/ef/] >>>
-exit 1
+No match was found!
+exit 3
 pwd /
 --- cat ---
 /tmp/z.test|1|1234567890
@@ -145,6 +149,7 @@ pwd /
 <<< <<<
 
 >>> Matches entire directory name - No slashes added - z [fish] >>>
+cd /tmp/z.test/home/user/.config/fish
 exit 0
 pwd /tmp/z.test/home/user/.config/fish
 --- cat ---
@@ -157,6 +162,7 @@ pwd /tmp/z.test/home/user/.config/fish
 <<< <<<
 
 >>> Matches entire directory name - Slash added before pattern - z [/fish] >>>
+cd /tmp/z.test/home/user/.config/fish/completions
 exit 0
 pwd /tmp/z.test/home/user/.config/fish/completions
 --- cat ---
@@ -169,6 +175,7 @@ pwd /tmp/z.test/home/user/.config/fish/completions
 <<< <<<
 
 >>> Matches entire directory name - Slash added after pattern - z [fish/] >>>
+cd /tmp/z.test/home/user/.config/fish/completions
 exit 0
 pwd /tmp/z.test/home/user/.config/fish/completions
 --- cat ---
@@ -181,6 +188,7 @@ pwd /tmp/z.test/home/user/.config/fish/completions
 <<< <<<
 
 >>> Matches entire directory name - Slashes added around pattern - z [/fish/] >>>
+cd /tmp/z.test/home/user/.config/fish/completions
 exit 0
 pwd /tmp/z.test/home/user/.config/fish/completions
 --- cat ---
@@ -259,6 +267,20 @@ pwd /tmp
 
 >>> Complete with directories that match every pattern - z --complete [c f ns] >>>
 /tmp/z.test/home/user/.config/fish/completions
+--- cat ---
+/tmp/z.test|1|1234567890
+/tmp/z.test/home/user/abcdef/abc|56|1451962485
+/tmp/z.test/home/user/abcdef/def|14|1451932167
+/tmp/z.test/home/user/.config|1|1452553109
+/tmp/z.test/home/user/.config/fish|1|1452553098
+/tmp/z.test/home/user/.config/fish/completions|56|1451875912
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+<<< <<<
+
+>>> awk fails with exit code 1 - z [fish] >>>
+exit 1
+pwd /
 --- cat ---
 /tmp/z.test|1|1234567890
 /tmp/z.test/home/user/abcdef/abc|56|1451962485
