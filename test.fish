@@ -1,15 +1,9 @@
-set --local test_directory (dirname (status --current-filename))
-
 begin
 	set IFS '|'
 	while read directory rank timestamp
 		echo "Creating directory $directory"
 		mkdir -p $directory
 	end < test.z.history
-end
-
-function describe_test -d "Describe the next test in one line"
-	echo '###' $argv '###'
 end
 
 function date -d "Freeze time during testing"
@@ -26,7 +20,7 @@ function test_z -d "Test which directory will be chosen"
 	echo exit $status
 	echo pwd (pwd)
 	echo "--- cat ---"
-	cat /tmp/.z
+	cat /tmp/.z | sort
 	echo "<<< <<<"
 end
 
@@ -45,9 +39,9 @@ function test_z_add -d "Test directory history addition"
 	echo
 	echo ">>> $description - z add [$directory] >>>"
 	z --add $directory
-	or echo exit \$status
+	echo exit $status
 	echo "--- cat ---"
-	cat /tmp/.z
+	cat /tmp/.z | sort
 	echo "<<< <<<"
 end
 
@@ -64,7 +58,7 @@ function test_z_list -d "Test the list command"
 	echo "/tmp/z.test/will/be/removed|1|1234567890" >> /tmp/.z
 	z --list $argv
 	echo "--- cat ---"
-	cat /tmp/.z
+	cat /tmp/.z | sort
 	echo "<<< <<<"
 end
 
@@ -76,7 +70,7 @@ function test_z_complete -d "Test the complete command"
 	echo "/tmp/z.test/will/be/removed|1|1234567890" >> /tmp/.z
 	z --complete $argv
 	echo "--- cat ---"
-	cat /tmp/.z
+	cat /tmp/.z | sort
 	echo "<<< <<<"
 end
 
