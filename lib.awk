@@ -18,10 +18,18 @@ function directory_score(type, patterns) {
 	else if ( type == "recent" ) score = $3
 	else                         score = frecent($2, $3)
 
-	n = split($1, names, "/")
+	basename = gensub(/^.*\//, "", 1, $1)
+
 	for ( i in patterns ) {
-		if ( names[n] ~ patterns[i] ) {
+		if ( basename ~ patterns[i] ) {
 			score *= 100 # pattern matches last component of directory
+			break
+		}
+	}
+
+	for ( i in patterns ) {
+		if ( basename ~ ("^" patterns[i]) ) {
+			score *= 100 # last component of directory is prefixed by pattern
 			break
 		}
 	}
