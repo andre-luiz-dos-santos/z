@@ -117,7 +117,14 @@ function z --description "Jump to a recent directory"
 				--assign q="$argv" \
 				--field-separator "|" \
 				$datafile)
-			and test -n $target # non-empty string = found a match
-			and cd $target
+			and begin
+				if test -z $target # is empty
+					echo "No match was found!"
+					return 3
+				else
+					echo cd $target
+					cd $target
+				end
+			end
 	end
 end
