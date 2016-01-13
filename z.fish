@@ -1,5 +1,5 @@
 
-complete --command z --arguments '(z --complete (commandline --current-token))'
+complete --command z --no-files --arguments '(z --complete (commandline --current-token))'
 complete --command z --short-option a --long-option add --require-parameter --description 'add directories to the z history file'
 complete --command z --short-option l --long-option list --description 'list directories in the z history file'
 complete --command z --short-option r --long-option rank --description 'use the highest ranked directory'
