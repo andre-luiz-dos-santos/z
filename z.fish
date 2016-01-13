@@ -57,7 +57,7 @@ function z --description "Jump to a recent directory"
 
 				set tempfile (mktemp $datafile.XXXXXX)
 				test -f $tempfile         # regular file,
-				and chmod u=rw $tempfile  # owned by us,
+				and chmod u=rw $tempfile  # readable only by the user,
 				and not test -s $tempfile # empty.
 				or return 1
 
@@ -84,9 +84,9 @@ function z --description "Jump to a recent directory"
 			or return 0
 
 			set tempfile (mktemp $datafile.XXXXXX)
-			test -f $tempfile # regular file
-			and chmod u=rw $tempfile
-			and not test -s $tempfile # empty
+			test -f $tempfile         # regular file,
+			and chmod u=rw $tempfile  # readable only by the user,
+			and not test -s $tempfile # empty.
 			or return 1
 
 			awk \
