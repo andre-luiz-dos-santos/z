@@ -1,4 +1,14 @@
 
+function has_uppercase_value(list) {
+	for ( i in list ) {
+		item = list[i]
+		if ( item != tolower(item) ) {
+			return 1
+		}
+	}
+	return 0
+}
+
 function frecent(rank, time) {
 	dx = now-time
 	if ( dx < 3600 )   return rank*4

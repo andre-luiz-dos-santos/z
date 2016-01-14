@@ -60,12 +60,10 @@ function z --description "Jump to a recent directory"
 	and test (count $argv) -eq 0
 	and set command list
 
-	set argv (
-		awk \
-			--file $z_dir/escape.awk \
-			--assign command=$command \
-			--assign regexp=$regexp \
-			$argv
+	test $command != 'add'
+	and test $regexp = 'false'
+	and set argv (
+		awk --file $z_dir/escape.awk $argv
 	)
 
 	test $subdir = true
@@ -76,31 +74,26 @@ function z --description "Jump to a recent directory"
 			test -e $datafile
 			or touch $datafile
 
-			for directory in $argv
-				test $directory != $HOME
-				or continue # no need, ~ is shorter
+			set tempfile (mktemp $datafile.XXXXXX)
+			and test -f $tempfile # is regular file
+			or return 1
 
-				set tempfile (mktemp $datafile.XXXXXX)
-				and test -f $tempfile # is regular file
-				or return 1
-
-				awk --file $z_dir/add.awk \
-					--assign directory=$directory \
-					--assign now=(date +%s) \
-					--field-separator "|" \
-					$datafile > $tempfile
-				and mv --force $tempfile $datafile
-				or rm --force $tempfile # also runs if the mv above fails
-			end
+			awk --file $z_dir/add.awk \
+				--assign now=(date +%s) \
+				--field-separator "|" \
+				$datafile $argv > $tempfile
+			and mv --force $tempfile $datafile
+			or rm --force $tempfile # also runs if the mv above fails
 
 		case complete
 			test -f $datafile
 			or return 0
 
-			awk --file $z_dir/complete.awk \
-				--assign q="$argv" \
+			awk \
+				--file $z_dir/lib.awk \
+				--file $z_dir/complete.awk \
 				--field-separator "|" \
-				$datafile
+				$datafile $argv
 
 		case list
 			test -f $datafile
@@ -111,9 +104,8 @@ function z --description "Jump to a recent directory"
 				--file $z_dir/list.awk \
 				--assign now=(date +%s) \
 				--assign type=$type \
-				--assign q="$argv" \
 				--field-separator "|" \
-				$datafile
+				$datafile $argv
 
 		case cd
 			test (count $argv) -eq 1 # When the single argument
@@ -128,9 +120,8 @@ function z --description "Jump to a recent directory"
 				--file $z_dir/cd.awk \
 				--assign now=(date +%s) \
 				--assign type=$type \
-				--assign q="$argv" \
 				--field-separator "|" \
-				$datafile)
+				$datafile $argv)
 			and begin
 				if test -z $target # is empty
 					echo "No match was found!"

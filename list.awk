@@ -1,10 +1,13 @@
 
 BEGIN {
-	if ( q == tolower(q) ) {
-		IGNORECASE = 1
+	for ( i = 2; i < ARGC; i ++ ) {
+		patterns[i] = ARGV[i]
+		delete ARGV[i]
 	}
+}
 
-	split(q, patterns, " ")
+BEGIN {
+	IGNORECASE =! has_uppercase_value(patterns)
 }
 
 {
