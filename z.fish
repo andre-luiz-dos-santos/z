@@ -81,9 +81,7 @@ function z --description "Jump to a recent directory"
 				or continue # no need, ~ is shorter
 
 				set tempfile (mktemp $datafile.XXXXXX)
-				test -f $tempfile         # regular file,
-				and chmod u=rw $tempfile  # readable only by the user,
-				and not test -s $tempfile # empty.
+				and test -f $tempfile # is regular file
 				or return 1
 
 				awk --file $z_dir/add.awk \
@@ -145,9 +143,7 @@ function z --description "Jump to a recent directory"
 
 		case clean
 			set tempfile (mktemp $datafile.XXXXXX)
-			test -f $tempfile         # regular file,
-			and chmod u=rw $tempfile  # readable only by the user,
-			and not test -s $tempfile # empty.
+			and test -f $tempfile # is regular file
 			or return 1
 
 			set error (begin
