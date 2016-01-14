@@ -68,13 +68,13 @@ function test_z_complete -d "Test the complete command"
 	echo
 	echo ">>> $description - z --complete [$argv] >>>"
 	echo "/tmp/z.test/will/be/removed|1|1234567890" >> /tmp/.z
-	z --complete $argv
+	z --complete $argv | sort
 	echo "--- cat ---"
 	cat /tmp/.z | sort
 	echo "<<< <<<"
 end
 
-set --global HOME /tmp
+set --global --export HOME /tmp
 rm -f /tmp/.z
 rm -rf /tmp/.z.test
 source $PWD/z.fish
@@ -88,6 +88,8 @@ cp test.z.history /tmp/.z
 test_z_add $HOME                      "Should not add \$HOME"
 test_z_add /tmp/z.test/does/not/exist "Add non-existing directory"
 test_z_add /tmp/z.test                "Add existing directory"
+test_z_add '"'                        "Add a double quote"
+test_z_add '\\'                       "Add a backslash"
 
 test_z_list "List all directories by frecent"
 test_z_list "List all directories by rank"       -r
@@ -105,3 +107,9 @@ begin # broken awk
 	test_z "awk fails with exit code 1" fish
 	functions -e awk
 end
+
+echo
+echo ">>> z --clean >>>"
+z --clean
+cat /tmp/.z | sort
+echo "<<< <<<"

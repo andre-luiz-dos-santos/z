@@ -48,215 +48,49 @@ exit 0
 /tmp/z.test/home/user/.config/fish/completions|56|1451875912
 <<< <<<
 
+>>> Add a double quote - z add ["] >>>
+exit 0
+--- cat ---
+"|1|1234567890
+/tmp/z.test|1|1234567890
+/tmp/z.test/does/not/exist|1|1234567890
+/tmp/z.test/home/user/abcdef/abc|56|1451962485
+/tmp/z.test/home/user/abcdef/def|14|1451932167
+/tmp/z.test/home/user/.config|1|1452553109
+/tmp/z.test/home/user/.config/fish|1|1452553098
+/tmp/z.test/home/user/.config/fish/completions|56|1451875912
+<<< <<<
+
+>>> Add a backslash - z add [\] >>>
+exit 0
+--- cat ---
+"|1|1234567890
+\|1|1234567890
+/tmp/z.test|1|1234567890
+/tmp/z.test/does/not/exist|1|1234567890
+/tmp/z.test/home/user/abcdef/abc|56|1451962485
+/tmp/z.test/home/user/abcdef/def|14|1451932167
+/tmp/z.test/home/user/.config|1|1452553109
+/tmp/z.test/home/user/.config/fish|1|1452553098
+/tmp/z.test/home/user/.config/fish/completions|56|1451875912
+<<< <<<
+
 >>> List all directories by frecent - z --list [] >>>
+4               "
+4               \
 4               /tmp/z.test
+4               /tmp/z.test/does/not/exist
 4               /tmp/z.test/home/user/.config
 4               /tmp/z.test/home/user/.config/fish
+4               /tmp/z.test/will/be/removed
 56              /tmp/z.test/home/user/abcdef/def
 224             /tmp/z.test/home/user/abcdef/abc
 224             /tmp/z.test/home/user/.config/fish/completions
 --- cat ---
+"|1|1234567890
+\|1|1234567890
 /tmp/z.test|1|1234567890
-/tmp/z.test/home/user/abcdef/abc|56|1451962485
-/tmp/z.test/home/user/abcdef/def|14|1451932167
-/tmp/z.test/home/user/.config|1|1452553109
-/tmp/z.test/home/user/.config/fish|1|1452553098
-/tmp/z.test/home/user/.config/fish/completions|56|1451875912
-<<< <<<
-
->>> List all directories by rank - z --list [-r] >>>
-1               /tmp/z.test
-1               /tmp/z.test/home/user/.config
-1               /tmp/z.test/home/user/.config/fish
-14              /tmp/z.test/home/user/abcdef/def
-56              /tmp/z.test/home/user/abcdef/abc
-56              /tmp/z.test/home/user/.config/fish/completions
---- cat ---
-/tmp/z.test|1|1234567890
-/tmp/z.test/home/user/abcdef/abc|56|1451962485
-/tmp/z.test/home/user/abcdef/def|14|1451932167
-/tmp/z.test/home/user/.config|1|1452553109
-/tmp/z.test/home/user/.config/fish|1|1452553098
-/tmp/z.test/home/user/.config/fish/completions|56|1451875912
-<<< <<<
-
->>> List all directories by timestamp - z --list [-t] >>>
-1234567890      /tmp/z.test
-1451875912      /tmp/z.test/home/user/.config/fish/completions
-1451932167      /tmp/z.test/home/user/abcdef/def
-1451962485      /tmp/z.test/home/user/abcdef/abc
-1452553098      /tmp/z.test/home/user/.config/fish
-1452553109      /tmp/z.test/home/user/.config
---- cat ---
-/tmp/z.test|1|1234567890
-/tmp/z.test/home/user/abcdef/abc|56|1451962485
-/tmp/z.test/home/user/abcdef/def|14|1451932167
-/tmp/z.test/home/user/.config|1|1452553109
-/tmp/z.test/home/user/.config/fish|1|1452553098
-/tmp/z.test/home/user/.config/fish/completions|56|1451875912
-<<< <<<
-
->>> Matches middle of directory name - No slashes added - z [ef] >>>
-cd /tmp/z.test/home/user/abcdef/def
-exit 0
-pwd /tmp/z.test/home/user/abcdef/def
---- cat ---
-/tmp/z.test|1|1234567890
-/tmp/z.test/home/user/abcdef/abc|56|1451962485
-/tmp/z.test/home/user/abcdef/def|14|1451932167
-/tmp/z.test/home/user/.config|1|1452553109
-/tmp/z.test/home/user/.config/fish|1|1452553098
-/tmp/z.test/home/user/.config/fish/completions|56|1451875912
-<<< <<<
-
->>> Matches middle of directory name - Slash added before pattern - z [/ef] >>>
-No match was found!
-exit 3
-pwd /
---- cat ---
-/tmp/z.test|1|1234567890
-/tmp/z.test/home/user/abcdef/abc|56|1451962485
-/tmp/z.test/home/user/abcdef/def|14|1451932167
-/tmp/z.test/home/user/.config|1|1452553109
-/tmp/z.test/home/user/.config/fish|1|1452553098
-/tmp/z.test/home/user/.config/fish/completions|56|1451875912
-<<< <<<
-
->>> Matches middle of directory name - Slash added after pattern - z [ef/] >>>
-cd /tmp/z.test/home/user/abcdef/abc
-exit 0
-pwd /tmp/z.test/home/user/abcdef/abc
---- cat ---
-/tmp/z.test|1|1234567890
-/tmp/z.test/home/user/abcdef/abc|56|1451962485
-/tmp/z.test/home/user/abcdef/def|14|1451932167
-/tmp/z.test/home/user/.config|1|1452553109
-/tmp/z.test/home/user/.config/fish|1|1452553098
-/tmp/z.test/home/user/.config/fish/completions|56|1451875912
-<<< <<<
-
->>> Matches middle of directory name - Slashes added around pattern - z [/ef/] >>>
-No match was found!
-exit 3
-pwd /
---- cat ---
-/tmp/z.test|1|1234567890
-/tmp/z.test/home/user/abcdef/abc|56|1451962485
-/tmp/z.test/home/user/abcdef/def|14|1451932167
-/tmp/z.test/home/user/.config|1|1452553109
-/tmp/z.test/home/user/.config/fish|1|1452553098
-/tmp/z.test/home/user/.config/fish/completions|56|1451875912
-<<< <<<
-
->>> Matches entire directory name - No slashes added - z [fish] >>>
-cd /tmp/z.test/home/user/.config/fish
-exit 0
-pwd /tmp/z.test/home/user/.config/fish
---- cat ---
-/tmp/z.test|1|1234567890
-/tmp/z.test/home/user/abcdef/abc|56|1451962485
-/tmp/z.test/home/user/abcdef/def|14|1451932167
-/tmp/z.test/home/user/.config|1|1452553109
-/tmp/z.test/home/user/.config/fish|1|1452553098
-/tmp/z.test/home/user/.config/fish/completions|56|1451875912
-<<< <<<
-
->>> Matches entire directory name - Slash added before pattern - z [/fish] >>>
-cd /tmp/z.test/home/user/.config/fish/completions
-exit 0
-pwd /tmp/z.test/home/user/.config/fish/completions
---- cat ---
-/tmp/z.test|1|1234567890
-/tmp/z.test/home/user/abcdef/abc|56|1451962485
-/tmp/z.test/home/user/abcdef/def|14|1451932167
-/tmp/z.test/home/user/.config|1|1452553109
-/tmp/z.test/home/user/.config/fish|1|1452553098
-/tmp/z.test/home/user/.config/fish/completions|56|1451875912
-<<< <<<
-
->>> Matches entire directory name - Slash added after pattern - z [fish/] >>>
-cd /tmp/z.test/home/user/.config/fish/completions
-exit 0
-pwd /tmp/z.test/home/user/.config/fish/completions
---- cat ---
-/tmp/z.test|1|1234567890
-/tmp/z.test/home/user/abcdef/abc|56|1451962485
-/tmp/z.test/home/user/abcdef/def|14|1451932167
-/tmp/z.test/home/user/.config|1|1452553109
-/tmp/z.test/home/user/.config/fish|1|1452553098
-/tmp/z.test/home/user/.config/fish/completions|56|1451875912
-<<< <<<
-
->>> Matches entire directory name - Slashes added around pattern - z [/fish/] >>>
-cd /tmp/z.test/home/user/.config/fish/completions
-exit 0
-pwd /tmp/z.test/home/user/.config/fish/completions
---- cat ---
-/tmp/z.test|1|1234567890
-/tmp/z.test/home/user/abcdef/abc|56|1451962485
-/tmp/z.test/home/user/abcdef/def|14|1451932167
-/tmp/z.test/home/user/.config|1|1452553109
-/tmp/z.test/home/user/.config/fish|1|1452553098
-/tmp/z.test/home/user/.config/fish/completions|56|1451875912
-<<< <<<
-
->>> Matches existing directory - No slashes added - z [tmp] >>>
-exit 0
-pwd /tmp
---- cat ---
-/tmp/z.test|1|1234567890
-/tmp/z.test/home/user/abcdef/abc|56|1451962485
-/tmp/z.test/home/user/abcdef/def|14|1451932167
-/tmp/z.test/home/user/.config|1|1452553109
-/tmp/z.test/home/user/.config/fish|1|1452553098
-/tmp/z.test/home/user/.config/fish/completions|56|1451875912
-<<< <<<
-
->>> Matches existing directory - Slash added before pattern - z [/tmp] >>>
-exit 0
-pwd /tmp
---- cat ---
-/tmp/z.test|1|1234567890
-/tmp/z.test/home/user/abcdef/abc|56|1451962485
-/tmp/z.test/home/user/abcdef/def|14|1451932167
-/tmp/z.test/home/user/.config|1|1452553109
-/tmp/z.test/home/user/.config/fish|1|1452553098
-/tmp/z.test/home/user/.config/fish/completions|56|1451875912
-<<< <<<
-
->>> Matches existing directory - Slash added after pattern - z [tmp/] >>>
-exit 0
-pwd /tmp
---- cat ---
-/tmp/z.test|1|1234567890
-/tmp/z.test/home/user/abcdef/abc|56|1451962485
-/tmp/z.test/home/user/abcdef/def|14|1451932167
-/tmp/z.test/home/user/.config|1|1452553109
-/tmp/z.test/home/user/.config/fish|1|1452553098
-/tmp/z.test/home/user/.config/fish/completions|56|1451875912
-<<< <<<
-
->>> Matches existing directory - Slashes added around pattern - z [/tmp/] >>>
-exit 0
-pwd /tmp
---- cat ---
-/tmp/z.test|1|1234567890
-/tmp/z.test/home/user/abcdef/abc|56|1451962485
-/tmp/z.test/home/user/abcdef/def|14|1451932167
-/tmp/z.test/home/user/.config|1|1452553109
-/tmp/z.test/home/user/.config/fish|1|1452553098
-/tmp/z.test/home/user/.config/fish/completions|56|1451875912
-<<< <<<
-
->>> Complete with all directories on empty input - z --complete [] >>>
-/tmp/z.test/home/user/abcdef/abc
-/tmp/z.test/home/user/.config/fish
-/tmp/z.test
-/tmp/z.test/home/user/.config/fish/completions
-/tmp/z.test/home/user/.config
-/tmp/z.test/home/user/abcdef/def
---- cat ---
-/tmp/z.test|1|1234567890
+/tmp/z.test/does/not/exist|1|1234567890
 /tmp/z.test/home/user/abcdef/abc|56|1451962485
 /tmp/z.test/home/user/abcdef/def|14|1451932167
 /tmp/z.test/home/user/.config|1|1452553109
@@ -265,15 +99,326 @@ pwd /tmp
 /tmp/z.test/will/be/removed|1|1234567890
 <<< <<<
 
->>> Complete with directories that match every pattern - z --complete [c f ns] >>>
-/tmp/z.test/home/user/.config/fish/completions
+>>> List all directories by rank - z --list [-r] >>>
+1               "
+1               \
+1               /tmp/z.test
+1               /tmp/z.test/does/not/exist
+1               /tmp/z.test/home/user/.config
+1               /tmp/z.test/home/user/.config/fish
+1               /tmp/z.test/will/be/removed
+14              /tmp/z.test/home/user/abcdef/def
+56              /tmp/z.test/home/user/abcdef/abc
+56              /tmp/z.test/home/user/.config/fish/completions
 --- cat ---
+"|1|1234567890
+\|1|1234567890
 /tmp/z.test|1|1234567890
+/tmp/z.test/does/not/exist|1|1234567890
 /tmp/z.test/home/user/abcdef/abc|56|1451962485
 /tmp/z.test/home/user/abcdef/def|14|1451932167
 /tmp/z.test/home/user/.config|1|1452553109
 /tmp/z.test/home/user/.config/fish|1|1452553098
 /tmp/z.test/home/user/.config/fish/completions|56|1451875912
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+<<< <<<
+
+>>> List all directories by timestamp - z --list [-t] >>>
+1234567890      "
+1234567890      \
+1234567890      /tmp/z.test
+1234567890      /tmp/z.test/does/not/exist
+1234567890      /tmp/z.test/will/be/removed
+1451875912      /tmp/z.test/home/user/.config/fish/completions
+1451932167      /tmp/z.test/home/user/abcdef/def
+1451962485      /tmp/z.test/home/user/abcdef/abc
+1452553098      /tmp/z.test/home/user/.config/fish
+1452553109      /tmp/z.test/home/user/.config
+--- cat ---
+"|1|1234567890
+\|1|1234567890
+/tmp/z.test|1|1234567890
+/tmp/z.test/does/not/exist|1|1234567890
+/tmp/z.test/home/user/abcdef/abc|56|1451962485
+/tmp/z.test/home/user/abcdef/def|14|1451932167
+/tmp/z.test/home/user/.config|1|1452553109
+/tmp/z.test/home/user/.config/fish|1|1452553098
+/tmp/z.test/home/user/.config/fish/completions|56|1451875912
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+<<< <<<
+
+>>> Matches middle of directory name - No slashes added - z [ef] >>>
+cd /tmp/z.test/home/user/abcdef/def
+exit 0
+pwd /tmp/z.test/home/user/abcdef/def
+--- cat ---
+"|1|1234567890
+\|1|1234567890
+/tmp/z.test|1|1234567890
+/tmp/z.test/does/not/exist|1|1234567890
+/tmp/z.test/home/user/abcdef/abc|56|1451962485
+/tmp/z.test/home/user/abcdef/def|14|1451932167
+/tmp/z.test/home/user/.config|1|1452553109
+/tmp/z.test/home/user/.config/fish|1|1452553098
+/tmp/z.test/home/user/.config/fish/completions|56|1451875912
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+<<< <<<
+
+>>> Matches middle of directory name - Slash added before pattern - z [/ef] >>>
+No match was found!
+exit 3
+pwd /
+--- cat ---
+"|1|1234567890
+\|1|1234567890
+/tmp/z.test|1|1234567890
+/tmp/z.test/does/not/exist|1|1234567890
+/tmp/z.test/home/user/abcdef/abc|56|1451962485
+/tmp/z.test/home/user/abcdef/def|14|1451932167
+/tmp/z.test/home/user/.config|1|1452553109
+/tmp/z.test/home/user/.config/fish|1|1452553098
+/tmp/z.test/home/user/.config/fish/completions|56|1451875912
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+<<< <<<
+
+>>> Matches middle of directory name - Slash added after pattern - z [ef/] >>>
+cd /tmp/z.test/home/user/abcdef/abc
+exit 0
+pwd /tmp/z.test/home/user/abcdef/abc
+--- cat ---
+"|1|1234567890
+\|1|1234567890
+/tmp/z.test|1|1234567890
+/tmp/z.test/does/not/exist|1|1234567890
+/tmp/z.test/home/user/abcdef/abc|56|1451962485
+/tmp/z.test/home/user/abcdef/def|14|1451932167
+/tmp/z.test/home/user/.config|1|1452553109
+/tmp/z.test/home/user/.config/fish|1|1452553098
+/tmp/z.test/home/user/.config/fish/completions|56|1451875912
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+<<< <<<
+
+>>> Matches middle of directory name - Slashes added around pattern - z [/ef/] >>>
+No match was found!
+exit 3
+pwd /
+--- cat ---
+"|1|1234567890
+\|1|1234567890
+/tmp/z.test|1|1234567890
+/tmp/z.test/does/not/exist|1|1234567890
+/tmp/z.test/home/user/abcdef/abc|56|1451962485
+/tmp/z.test/home/user/abcdef/def|14|1451932167
+/tmp/z.test/home/user/.config|1|1452553109
+/tmp/z.test/home/user/.config/fish|1|1452553098
+/tmp/z.test/home/user/.config/fish/completions|56|1451875912
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+<<< <<<
+
+>>> Matches entire directory name - No slashes added - z [fish] >>>
+cd /tmp/z.test/home/user/.config/fish
+exit 0
+pwd /tmp/z.test/home/user/.config/fish
+--- cat ---
+"|1|1234567890
+\|1|1234567890
+/tmp/z.test|1|1234567890
+/tmp/z.test/does/not/exist|1|1234567890
+/tmp/z.test/home/user/abcdef/abc|56|1451962485
+/tmp/z.test/home/user/abcdef/def|14|1451932167
+/tmp/z.test/home/user/.config|1|1452553109
+/tmp/z.test/home/user/.config/fish|1|1452553098
+/tmp/z.test/home/user/.config/fish/completions|56|1451875912
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+<<< <<<
+
+>>> Matches entire directory name - Slash added before pattern - z [/fish] >>>
+cd /tmp/z.test/home/user/.config/fish/completions
+exit 0
+pwd /tmp/z.test/home/user/.config/fish/completions
+--- cat ---
+"|1|1234567890
+\|1|1234567890
+/tmp/z.test|1|1234567890
+/tmp/z.test/does/not/exist|1|1234567890
+/tmp/z.test/home/user/abcdef/abc|56|1451962485
+/tmp/z.test/home/user/abcdef/def|14|1451932167
+/tmp/z.test/home/user/.config|1|1452553109
+/tmp/z.test/home/user/.config/fish|1|1452553098
+/tmp/z.test/home/user/.config/fish/completions|56|1451875912
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+<<< <<<
+
+>>> Matches entire directory name - Slash added after pattern - z [fish/] >>>
+cd /tmp/z.test/home/user/.config/fish/completions
+exit 0
+pwd /tmp/z.test/home/user/.config/fish/completions
+--- cat ---
+"|1|1234567890
+\|1|1234567890
+/tmp/z.test|1|1234567890
+/tmp/z.test/does/not/exist|1|1234567890
+/tmp/z.test/home/user/abcdef/abc|56|1451962485
+/tmp/z.test/home/user/abcdef/def|14|1451932167
+/tmp/z.test/home/user/.config|1|1452553109
+/tmp/z.test/home/user/.config/fish|1|1452553098
+/tmp/z.test/home/user/.config/fish/completions|56|1451875912
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+<<< <<<
+
+>>> Matches entire directory name - Slashes added around pattern - z [/fish/] >>>
+cd /tmp/z.test/home/user/.config/fish/completions
+exit 0
+pwd /tmp/z.test/home/user/.config/fish/completions
+--- cat ---
+"|1|1234567890
+\|1|1234567890
+/tmp/z.test|1|1234567890
+/tmp/z.test/does/not/exist|1|1234567890
+/tmp/z.test/home/user/abcdef/abc|56|1451962485
+/tmp/z.test/home/user/abcdef/def|14|1451932167
+/tmp/z.test/home/user/.config|1|1452553109
+/tmp/z.test/home/user/.config/fish|1|1452553098
+/tmp/z.test/home/user/.config/fish/completions|56|1451875912
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+<<< <<<
+
+>>> Matches existing directory - No slashes added - z [tmp] >>>
+exit 0
+pwd /tmp
+--- cat ---
+"|1|1234567890
+\|1|1234567890
+/tmp/z.test|1|1234567890
+/tmp/z.test/does/not/exist|1|1234567890
+/tmp/z.test/home/user/abcdef/abc|56|1451962485
+/tmp/z.test/home/user/abcdef/def|14|1451932167
+/tmp/z.test/home/user/.config|1|1452553109
+/tmp/z.test/home/user/.config/fish|1|1452553098
+/tmp/z.test/home/user/.config/fish/completions|56|1451875912
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+<<< <<<
+
+>>> Matches existing directory - Slash added before pattern - z [/tmp] >>>
+exit 0
+pwd /tmp
+--- cat ---
+"|1|1234567890
+\|1|1234567890
+/tmp/z.test|1|1234567890
+/tmp/z.test/does/not/exist|1|1234567890
+/tmp/z.test/home/user/abcdef/abc|56|1451962485
+/tmp/z.test/home/user/abcdef/def|14|1451932167
+/tmp/z.test/home/user/.config|1|1452553109
+/tmp/z.test/home/user/.config/fish|1|1452553098
+/tmp/z.test/home/user/.config/fish/completions|56|1451875912
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+<<< <<<
+
+>>> Matches existing directory - Slash added after pattern - z [tmp/] >>>
+exit 0
+pwd /tmp
+--- cat ---
+"|1|1234567890
+\|1|1234567890
+/tmp/z.test|1|1234567890
+/tmp/z.test/does/not/exist|1|1234567890
+/tmp/z.test/home/user/abcdef/abc|56|1451962485
+/tmp/z.test/home/user/abcdef/def|14|1451932167
+/tmp/z.test/home/user/.config|1|1452553109
+/tmp/z.test/home/user/.config/fish|1|1452553098
+/tmp/z.test/home/user/.config/fish/completions|56|1451875912
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+<<< <<<
+
+>>> Matches existing directory - Slashes added around pattern - z [/tmp/] >>>
+exit 0
+pwd /tmp
+--- cat ---
+"|1|1234567890
+\|1|1234567890
+/tmp/z.test|1|1234567890
+/tmp/z.test/does/not/exist|1|1234567890
+/tmp/z.test/home/user/abcdef/abc|56|1451962485
+/tmp/z.test/home/user/abcdef/def|14|1451932167
+/tmp/z.test/home/user/.config|1|1452553109
+/tmp/z.test/home/user/.config/fish|1|1452553098
+/tmp/z.test/home/user/.config/fish/completions|56|1451875912
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+<<< <<<
+
+>>> Complete with all directories on empty input - z --complete [] >>>
+"
+\
+/tmp/z.test
+/tmp/z.test/does/not/exist
+/tmp/z.test/home/user/abcdef/abc
+/tmp/z.test/home/user/abcdef/def
+/tmp/z.test/home/user/.config
+/tmp/z.test/home/user/.config/fish
+/tmp/z.test/home/user/.config/fish/completions
+/tmp/z.test/will/be/removed
+/tmp/z.test/will/be/removed
+/tmp/z.test/will/be/removed
+/tmp/z.test/will/be/removed
+--- cat ---
+"|1|1234567890
+\|1|1234567890
+/tmp/z.test|1|1234567890
+/tmp/z.test/does/not/exist|1|1234567890
+/tmp/z.test/home/user/abcdef/abc|56|1451962485
+/tmp/z.test/home/user/abcdef/def|14|1451932167
+/tmp/z.test/home/user/.config|1|1452553109
+/tmp/z.test/home/user/.config/fish|1|1452553098
+/tmp/z.test/home/user/.config/fish/completions|56|1451875912
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+<<< <<<
+
+>>> Complete with directories that match every pattern - z --complete [c f ns] >>>
+/tmp/z.test/home/user/.config/fish/completions
+--- cat ---
+"|1|1234567890
+\|1|1234567890
+/tmp/z.test|1|1234567890
+/tmp/z.test/does/not/exist|1|1234567890
+/tmp/z.test/home/user/abcdef/abc|56|1451962485
+/tmp/z.test/home/user/abcdef/def|14|1451932167
+/tmp/z.test/home/user/.config|1|1452553109
+/tmp/z.test/home/user/.config/fish|1|1452553098
+/tmp/z.test/home/user/.config/fish/completions|56|1451875912
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
 /tmp/z.test/will/be/removed|1|1234567890
 /tmp/z.test/will/be/removed|1|1234567890
 <<< <<<
@@ -282,7 +427,10 @@ pwd /tmp
 exit 1
 pwd /
 --- cat ---
+"|1|1234567890
+\|1|1234567890
 /tmp/z.test|1|1234567890
+/tmp/z.test/does/not/exist|1|1234567890
 /tmp/z.test/home/user/abcdef/abc|56|1451962485
 /tmp/z.test/home/user/abcdef/def|14|1451932167
 /tmp/z.test/home/user/.config|1|1452553109
@@ -290,4 +438,16 @@ pwd /
 /tmp/z.test/home/user/.config/fish/completions|56|1451875912
 /tmp/z.test/will/be/removed|1|1234567890
 /tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+/tmp/z.test/will/be/removed|1|1234567890
+<<< <<<
+
+>>> z --clean >>>
+/tmp/z.test|1|1234567890
+/tmp/z.test/home/user/abcdef/abc|56|1451962485
+/tmp/z.test/home/user/abcdef/def|14|1451932167
+/tmp/z.test/home/user/.config|1|1452553109
+/tmp/z.test/home/user/.config/fish|1|1452553098
+/tmp/z.test/home/user/.config/fish/completions|56|1451875912
 <<< <<<
