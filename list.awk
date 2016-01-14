@@ -8,12 +8,6 @@ BEGIN {
 }
 
 {
-	if ( system("test -d \"" $1 "\"") ) {
-		next # directory does not exist
-	}
-
-	print >> tempfile
-
 	matches[$1] = directory_score(type, patterns) # may call "next"
 }
 

@@ -1,10 +1,12 @@
 
-complete --command z --no-files --arguments '(z --complete (commandline --current-token))'
-complete --command z --short-option a --long-option add --require-parameter --description 'add directories to the z history file'
-complete --command z --short-option l --long-option list --description 'list directories in the z history file'
-complete --command z --short-option r --long-option rank --description 'use the highest ranked directory'
-complete --command z --short-option t --long-option recent --description 'use the most recently accessed directory'
-complete --command z --short-option c --long-option subdir --description 'only match within the current directory'
+complete --arguments '(z --complete (commandline --current-token))' --no-files --command z
+complete --short-option a --long-option add    --description 'add directories to the z history file' --require-parameter --command z
+complete --short-option l --long-option list   --description 'list directories in the z history file' --command z
+complete --short-option r --long-option rank   --description 'use the highest ranked directory' --command z
+complete --short-option t --long-option recent --description 'use the most recently accessed directory' --command z
+complete --short-option c --long-option subdir --description 'only match within the current directory' --command z
+complete --short-option e --long-option regexp --description 'use regular expression matching' --command z
+complete                  --long-option clean  --description 'forget removed directories' --command z
 
 function add_directory_to_z_history_on_pwd_change --on-variable PWD
 	z --add $PWD
@@ -12,10 +14,13 @@ end
 
 function z --description "Jump to a recent directory"
 	set --local datafile "$HOME/.z"
+	set --local z_dir (dirname (status --current-filename))
 	set --local type 'frecent'
 	set --local tempfile
 	set --local target
+	set --local error
 	set --local subdir false
+	set --local regexp false
 	set --local command cd
 
 	# Parse all the command line arguments before starting the program.
@@ -25,8 +30,6 @@ function z --description "Jump to a recent directory"
 		switch $argv[1]
 			case --add -a
 				set command 'add'
-			case --complete
-				set command 'complete'
 			case --list -l
 				set command 'list'
 			case --rank -r
@@ -35,9 +38,18 @@ function z --description "Jump to a recent directory"
 				set type "recent"
 			case --subdir -c
 				set subdir true
+			case --regexp -e
+				set regexp true
+			case --complete
+				set command 'complete'
+			case --clean
+				set command 'clean'
 			case --
 				set -e argv[1]
 				break
+			case '-*'
+				echo "Invalid option $argv[1]" >&2
+				return 2
 			case '*'
 				break
 		end
@@ -48,7 +60,13 @@ function z --description "Jump to a recent directory"
 	and test (count $argv) -eq 0
 	and set command list
 
-	set z_dir (dirname (status --current-filename))
+	set argv (
+		awk \
+			--file $z_dir/escape.awk \
+			--assign command=$command \
+			--assign regexp=$regexp \
+			$argv
+	)
 
 	test $subdir = true
 	and set argv $argv '^'(pwd)
@@ -90,23 +108,14 @@ function z --description "Jump to a recent directory"
 			test -f $datafile
 			or return 0
 
-			set tempfile (mktemp $datafile.XXXXXX)
-			test -f $tempfile         # regular file,
-			and chmod u=rw $tempfile  # readable only by the user,
-			and not test -s $tempfile # empty.
-			or return 1
-
 			awk \
 				--file $z_dir/lib.awk \
 				--file $z_dir/list.awk \
 				--assign now=(date +%s) \
 				--assign type=$type \
 				--assign q="$argv" \
-				--assign tempfile=$tempfile \
 				--field-separator "|" \
 				$datafile
-			and mv --force $tempfile $datafile
-			or rm --force $tempfile # also runs if the mv above fails
 
 		case cd
 			test (count $argv) -eq 1 # When the single argument
@@ -133,5 +142,26 @@ function z --description "Jump to a recent directory"
 					cd $target
 				end
 			end
+
+		case clean
+			set tempfile (mktemp $datafile.XXXXXX)
+			test -f $tempfile         # regular file,
+			and chmod u=rw $tempfile  # readable only by the user,
+			and not test -s $tempfile # empty.
+			or return 1
+
+			set error (begin
+				set --local IFS '|'
+				while read --local directory rank timestamp
+					test -d $directory
+					and echo "$directory|$rank|$timestamp"
+				end < $datafile >> $tempfile
+				# fish reports pipe errors on stderr
+			end ^&1)
+
+			test -z $error # is empty
+			and mv --force $tempfile $datafile
+			or rm --force $tempfile # also runs if the mv above fails
+
 	end
 end

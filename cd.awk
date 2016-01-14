@@ -8,10 +8,6 @@ BEGIN {
 }
 
 {
-	if ( system("test -d \"" $1 "\"") ) {
-		next # directory does not exist
-	}
-
 	score = directory_score(type, patterns) # may call "next"
 	if ( score > best_score ) {
 		best_score = score
