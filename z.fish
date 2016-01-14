@@ -4,6 +4,7 @@ complete --command z --short-option a --long-option add --require-parameter --de
 complete --command z --short-option l --long-option list --description 'list directories in the z history file'
 complete --command z --short-option r --long-option rank --description 'use the highest ranked directory'
 complete --command z --short-option t --long-option recent --description 'use the most recently accessed directory'
+complete --command z --short-option c --long-option subdir --description 'only match within the current directory'
 
 function add_directory_to_z_history_on_pwd_change --on-variable PWD
 	z --add $PWD
@@ -14,6 +15,7 @@ function z --description "Jump to a recent directory"
 	set --local type 'frecent'
 	set --local tempfile
 	set --local target
+	set --local subdir false
 	set --local command cd
 
 	# Parse all the command line arguments before starting the program.
@@ -23,7 +25,7 @@ function z --description "Jump to a recent directory"
 		switch $argv[1]
 			case --add -a
 				set command 'add'
-			case --complete -c
+			case --complete
 				set command 'complete'
 			case --list -l
 				set command 'list'
@@ -31,6 +33,8 @@ function z --description "Jump to a recent directory"
 				set type "rank"
 			case --recent -t
 				set type "recent"
+			case --subdir -c
+				set subdir true
 			case --
 				set -e argv[1]
 				break
@@ -45,6 +49,9 @@ function z --description "Jump to a recent directory"
 	and set command list
 
 	set z_dir (dirname (status --current-filename))
+
+	test $subdir = true
+	and set argv $argv '^'(pwd)
 
 	switch $command
 		case add
