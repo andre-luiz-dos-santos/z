@@ -6,6 +6,7 @@ complete --short-option r --long-option rank   --description 'use the highest ra
 complete --short-option t --long-option recent --description 'use the most recently accessed directory' --command z
 complete --short-option c --long-option subdir --description 'only match within the current directory' --command z
 complete --short-option e --long-option regexp --description 'use regular expression matching' --command z
+complete --short-option x --long-option exclude --description 'remove the current directory from history' --command z
 complete                  --long-option clean  --description 'forget removed directories' --command z
 
 function add_directory_to_z_history_on_pwd_change --on-variable PWD
@@ -44,6 +45,8 @@ function z --description "Jump to a recent directory"
 				set command 'complete'
 			case --clean
 				set command 'clean'
+			case --exclude -x
+				set command 'exclude'
 			case --
 				set -e argv[1]
 				break
@@ -132,7 +135,7 @@ function z --description "Jump to a recent directory"
 				end
 			end
 
-		case clean
+		case clean exclude
 			set tempfile (mktemp $datafile.XXXXXX)
 			and test -f $tempfile # is regular file
 			or return 1
@@ -141,7 +144,11 @@ function z --description "Jump to a recent directory"
 				set --local IFS '|'
 				while read --local directory rank timestamp
 					test -d $directory
-					and echo "$directory|$rank|$timestamp"
+					or continue # because it's not a directory
+					test $command = exclude
+					and test $directory = (pwd)
+					and continue # because it's PWD and -x is set
+					echo "$directory|$rank|$timestamp"
 				end < $datafile >> $tempfile
 				# fish reports pipe errors on stderr
 			end ^&1)
