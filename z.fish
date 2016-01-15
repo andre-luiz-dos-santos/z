@@ -22,6 +22,10 @@ function z.add_directory_to_history_on_pwd_change --on-variable PWD
 	z --add $PWD
 end
 
+function zc --description "Alias to z --subdir"
+	z --subdir $argv
+end
+
 function z --description "Jump to a recent directory"
 	set --local datafile (z.history_file)
 	set --local z_dir (dirname (status --current-filename))
@@ -77,7 +81,7 @@ function z --description "Jump to a recent directory"
 	and set argv (command awk --file $z_dir/escape.awk $argv)
 
 	test $subdir = true
-	and set argv $argv '^'(pwd)
+	and set argv $argv '^'(pwd)'/'
 
 	switch $command
 		case add
@@ -132,7 +136,7 @@ function z --description "Jump to a recent directory"
 					--assign now=(date +%s) \
 					--assign type=$type \
 					--field-separator "|" \
-					$datafile $argv)
+					$datafile (pwd) $argv)
 			and begin
 				if test -z $target # is empty
 					echo "No match was found!"
