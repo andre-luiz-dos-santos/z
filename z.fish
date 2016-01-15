@@ -9,7 +9,7 @@ complete --short-option e --long-option regexp --description 'use regular expres
 complete --short-option x --long-option exclude --description 'remove the current directory from history' --command z
 complete                  --long-option clean  --description 'forget removed directories' --command z
 
-function add_directory_to_z_history_on_pwd_change --on-variable PWD
+function z.add_directory_to_history_on_pwd_change --on-variable PWD
 	z --add $PWD
 end
 
@@ -65,9 +65,7 @@ function z --description "Jump to a recent directory"
 
 	test $command != 'add'
 	and test $regexp = 'false'
-	and set argv (
-		awk --file $z_dir/escape.awk $argv
-	)
+	and set argv (command awk --file $z_dir/escape.awk $argv)
 
 	test $subdir = true
 	and set argv $argv '^'(pwd)
@@ -75,24 +73,24 @@ function z --description "Jump to a recent directory"
 	switch $command
 		case add
 			test -e $datafile
-			or touch $datafile
+			or command touch $datafile
 
-			set tempfile (mktemp $datafile.XXXXXX)
+			set tempfile (command mktemp $datafile.XXXXXX)
 			and test -f $tempfile # is regular file
 			or return 1
 
-			awk --file $z_dir/add.awk \
+			command awk --file $z_dir/add.awk \
 				--assign now=(date +%s) \
 				--field-separator "|" \
 				$datafile $argv > $tempfile
-			and mv --force $tempfile $datafile
-			or rm --force $tempfile # also runs if the mv above fails
+			and command mv --force $tempfile $datafile
+			or command rm --force $tempfile # also runs if the mv above fails
 
 		case complete
 			test -f $datafile
 			or return 0
 
-			awk \
+			command awk \
 				--file $z_dir/lib.awk \
 				--file $z_dir/complete.awk \
 				--field-separator "|" \
@@ -102,7 +100,7 @@ function z --description "Jump to a recent directory"
 			test -f $datafile
 			or return 0
 
-			awk \
+			command awk \
 				--file $z_dir/lib.awk \
 				--file $z_dir/list.awk \
 				--assign now=(date +%s) \
@@ -118,13 +116,14 @@ function z --description "Jump to a recent directory"
 			test -f $datafile
 			or return 0
 
-			set target (awk \
-				--file $z_dir/lib.awk \
-				--file $z_dir/cd.awk \
-				--assign now=(date +%s) \
-				--assign type=$type \
-				--field-separator "|" \
-				$datafile $argv)
+			set target (
+				command awk \
+					--file $z_dir/lib.awk \
+					--file $z_dir/cd.awk \
+					--assign now=(date +%s) \
+					--assign type=$type \
+					--field-separator "|" \
+					$datafile $argv)
 			and begin
 				if test -z $target # is empty
 					echo "No match was found!"
@@ -136,7 +135,7 @@ function z --description "Jump to a recent directory"
 			end
 
 		case clean exclude
-			set tempfile (mktemp $datafile.XXXXXX)
+			set tempfile (command mktemp $datafile.XXXXXX)
 			and test -f $tempfile # is regular file
 			or return 1
 
@@ -154,8 +153,8 @@ function z --description "Jump to a recent directory"
 			end ^&1)
 
 			test -z $error # is empty
-			and mv --force $tempfile $datafile
-			or rm --force $tempfile # also runs if the mv above fails
+			and command mv --force $tempfile $datafile
+			or command rm --force $tempfile # also runs if the mv above fails
 
 	end
 end

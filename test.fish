@@ -1,13 +1,9 @@
 begin
-	set IFS '|'
+	set -l IFS '|'
 	while read directory rank timestamp
 		echo "Creating directory $directory"
 		mkdir -p $directory
 	end < test.z.history
-end
-
-function date -d "Freeze time during testing"
-	echo "1234567890"
 end
 
 function test_z -d "Test which directory will be chosen"
@@ -75,10 +71,19 @@ function test_z_complete -d "Test the complete command"
 end
 
 set --global --export HOME /tmp
+set --global --export TESTDIR $PWD
 rm -f /tmp/.z
 rm -rf /tmp/.z.test
-source $PWD/z.fish
-functions --erase add_directory_to_z_history_on_pwd_change
+
+function date -d "Freeze time during testing"
+	echo "1234567890"
+end
+
+functions -e awk
+
+sed -Ee 's/\\scommand (awk|date)/\\1/g' z.fish > test.z.fish
+source $TESTDIR/test.z.fish
+functions --erase z.add_directory_to_history_on_pwd_change
 
 test_z_add_rm /try/not/to/crash "Add with no history file"
 test_z_add_rm $HOME             "Should not add \$HOME"
@@ -113,3 +118,5 @@ echo ">>> z --clean >>>"
 z --clean
 cat /tmp/.z | sort
 echo "<<< <<<"
+
+rm $TESTDIR/test.z.fish
