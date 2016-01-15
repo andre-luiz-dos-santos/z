@@ -30,9 +30,16 @@ The shell doesn't have to be reloaded when editing the _awk_ files.
 Basically, _rank_ indicates how frequently a directory is used, _time_ is when the directory was last used, and _frecent_ takes both values into account.
 Wikipedia also has an article describing [frecency](https://en.wikipedia.org/wiki/Frecency).
 
+To change the directory where the history file is saved, define a function called `z.history_file`, that prints the name of the new file location. For example, to keep the history in a file named `.z_history`, inside the user's home directory:
+```
+function z.history_file; echo $HOME/.z; end
+funcsave z.history_file
+```
+
 ## Examples
 
 * `z foo` goes to the most _frecent_ directory matching `foo`.
+* `zc foo` goes to the most _frecent_ directory matching `foo` that's inside the current directory.
 * `z foo bar` goes to the most _frecent_ directory matching `foo` and `bar`.
 * `z -r foo` goes to the highest ranked directory matching `foo`.
 * `z -t foo` goes to the most recently accessed directory matching `foo`.
@@ -46,6 +53,9 @@ If `--rank` and `--recent` are not set, then directories are ordered based on th
 
 * `-l/--list` shows all directories matching the selected criteria. The last directory shown is the one that would be entered had `--list` not been set.
 * `-c/--subdir` forces _z_ to only look for subdirectories of the current directory, by adding the pattern `^PWD`.
+
+The option `--subdir` is also available in the alias `zc`. In the fish shell, that alias is just another function, which can be easily removed or renamed in the `~/.config/fish/config.fish` file. Note that that must be done after sourcing `z.fish`, or your customizations might be undone.
+
 * `-e/--regexp` enables _awk_ to use all patterns as regular expressions.
 * `-x/--exclude` removes the current directory from the history.
 * `--clean` removes all directories that no longer exist in the filesystem from the history.
