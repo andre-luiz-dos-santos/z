@@ -9,12 +9,21 @@ complete --short-option e --long-option regexp --description 'use regular expres
 complete --short-option x --long-option exclude --description 'remove the current directory from history' --command z
 complete                  --long-option clean  --description 'forget removed directories' --command z
 
+functions --query z.history_file
+or begin
+	function z.history_file --description "Print the name of the Z history file"
+		set --query HOME
+		and echo $HOME/.z
+		or echo /tmp/.z
+	end
+end
+
 function z.add_directory_to_history_on_pwd_change --on-variable PWD
 	z --add $PWD
 end
 
 function z --description "Jump to a recent directory"
-	set --local datafile "$HOME/.z"
+	set --local datafile (z.history_file)
 	set --local z_dir (dirname (status --current-filename))
 	set --local type 'frecent'
 	set --local tempfile

@@ -84,6 +84,7 @@ functions -e awk
 sed -Ee 's/\\scommand (awk|date)/\\1/g' z.fish > test.z.fish
 source $TESTDIR/test.z.fish
 functions --erase z.add_directory_to_history_on_pwd_change
+function z.history_file; echo /tmp/.z; end
 
 test_z_add_rm /try/not/to/crash "Add with no history file"
 test_z_add_rm $HOME             "Should not add \$HOME"
