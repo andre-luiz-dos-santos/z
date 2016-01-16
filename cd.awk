@@ -1,9 +1,9 @@
 
 BEGIN {
-	pwd = ARGV[2]
-	delete ARGV[2]
+	pwd = ARGV[1]
+	delete ARGV[1]
 
-	for ( i = 3; i < ARGC; i ++ ) {
+	for ( i = 2; i < ARGC; i ++ ) {
 		patterns[i] = ARGV[i]
 		delete ARGV[i]
 	}

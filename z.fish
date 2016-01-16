@@ -92,6 +92,8 @@ function z --description "Jump to a recent directory"
 	test $subdir = true
 	and set argv $argv '^'(pwd)'/'
 
+	emit z__pre_$command
+
 	switch $command
 		case add
 			test -e $datafile
@@ -139,13 +141,19 @@ function z --description "Jump to a recent directory"
 			or return 0
 
 			set target (
-				command awk \
+				begin
+					set --local IFS '|'
+					while read --local directory rank timestamp
+						test -d $directory
+						and echo "$directory|$rank|$timestamp"
+					end < $datafile
+				end | command awk \
 					--file $z_dir/lib.awk \
 					--file $z_dir/cd.awk \
 					--assign now=(date +%s) \
 					--assign type=$type \
 					--field-separator "|" \
-					$datafile (pwd) $argv)
+					(pwd) $argv)
 			and begin
 				if test -z $target # is empty
 					echo "No match was found!"
