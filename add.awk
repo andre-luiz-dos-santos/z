@@ -22,9 +22,9 @@ END {
 		delete rank[ENVIRON["HOME"]]
 	}
 
-	if ( count > 1000 ) {
+	if ( count > 9000 ) {
 		for ( i in rank ) {
-			print i "|" 0.9*rank[i] "|" time[i]  # aging
+			print i "|" 0.99*rank[i] "|" time[i]  # aging
 		}
 	}
 	else {
