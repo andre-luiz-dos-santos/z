@@ -1,19 +1,22 @@
 
-complete --arguments '(z --complete (commandline --current-token) ^ /dev/null)' --no-files --command z
-complete --short-option a --long-option add    --description 'add directories to the z history file' --require-parameter --command z
-complete --short-option l --long-option list   --description 'list directories in the z history file' --command z
-complete --short-option r --long-option rank   --description 'use the highest ranked directory' --command z
-complete --short-option t --long-option recent --description 'use the most recently accessed directory' --command z
-complete --short-option c --long-option subdir --description 'only match within the current directory' --command z
-complete --short-option e --long-option regexp --description 'use regular expression matching' --command z
-complete --short-option x --long-option exclude --description 'remove the current directory from history' --command z
-complete                  --long-option clean  --description 'forget removed directories' --command z
+# -c command -a arguments
+complete -c z  -a '(z --complete          -- (commandline --current-token) ^ /dev/null)' --no-files
+complete -c zc -a '(z --complete --subdir -- (commandline --current-token) ^ /dev/null)' --no-files
 
-complete --arguments '(z --complete --subdir (commandline --current-token) ^ /dev/null)' --no-files --command zc
-complete --short-option l --long-option list   --description 'list directories in the z history file' --command zc
-complete --short-option r --long-option rank   --description 'use the highest ranked directory' --command zc
-complete --short-option t --long-option recent --description 'use the most recently accessed directory' --command zc
-complete --short-option e --long-option regexp --description 'use regular expression matching' --command zc
+# -d description -s short-option -l long-option
+complete -c z -s a -l add     -d 'add directories to the z history file'    --require-parameter
+complete -c z -s l -l list    -d 'list directories in the z history file'
+complete -c z -s r -l rank    -d 'use the highest ranked directory'
+complete -c z -s t -l recent  -d 'use the most recently accessed directory'
+complete -c z -s c -l subdir  -d 'only match within the current directory'
+complete -c z -s e -l regexp  -d 'use regular expression matching'
+complete -c z -s x -l exclude -d 'remove the current directory from history'
+complete -c z      -l clean   -d 'forget removed directories'
+
+complete -c zc -s l -l list   -d 'list directories in the z history file'
+complete -c zc -s r -l rank   -d 'use the highest ranked directory'
+complete -c zc -s t -l recent -d 'use the most recently accessed directory'
+complete -c zc -s e -l regexp -d 'use regular expression matching'
 
 functions --query z.history_file
 or begin
