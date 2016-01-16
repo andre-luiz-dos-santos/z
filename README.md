@@ -3,7 +3,7 @@
 Maintains a jump-list of the directories you actually use.
 
 The original version of this program can be found at [github.com/rupa/z](https://github.com/rupa/z).
-The first version supporting Fish seems to be [github.com/sjl/z-fish](https://github.com/sjl/z-fish).
+The first version supporting fish seems to be [github.com/sjl/z-fish](https://github.com/sjl/z-fish).
 I learned about `--on-variable PWD` from the version at [github.com/roryokane/z-fish](https://github.com/roryokane/z-fish/blob/master/z.fish).
 [Fish repository ticket](https://github.com/fish-shell/fish-shell/issues/981) asking about a _z_ equivalent for fish.
 
@@ -35,6 +35,14 @@ To change the directory where the history file is saved, define a function calle
 function z.history_file; echo $HOME/.z; end
 funcsave z.history_file
 ```
+
+A fish event is emitted before each _z_ command is run. The event name is `z__pre_<command>`. The user can then choose when to run the `z --clean` command, by defining a new function in the `~/.config/fish/config.fish` file. For example, to always run `z --clean` automatically before listing the history:
+```
+function z.clean_history_before_list --on-event z__pre_list
+	z --clean
+end
+```
+`<command>` may be one of: `cd`, `add`, `list`, `complete`, `clean`, `exclude`. All commands are explained below in the _Options_ section, except for `cd`, which is the default command, used when no other command is set.
 
 ## Examples
 
