@@ -18,8 +18,10 @@ END {
 		time[directory] = now
 	}
 
+	# On fish, it's quicker to enter these directories by typing …
+	delete rank["/"]  # … /
 	if ( "HOME" in ENVIRON ) {
-		delete rank[ENVIRON["HOME"]]
+		delete rank[ENVIRON["HOME"]]  # … ~
 	}
 
 	if ( count > 9000 ) {
