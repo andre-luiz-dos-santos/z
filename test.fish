@@ -94,8 +94,8 @@ cp test.z.history /tmp/.z
 test_z_add $HOME                      "Should not add \$HOME"
 test_z_add /tmp/z.test/does/not/exist "Add non-existing directory"
 test_z_add /tmp/z.test                "Add existing directory"
-test_z_add '"'                        "Add a double quote"
-test_z_add '\\'                       "Add a backslash"
+test_z_add '/"'                        "Add a double quote"
+test_z_add '/\\'                       "Add a backslash"
 
 test_z_list "List all directories by frecent"
 test_z_list "List all directories by rank"       -r

@@ -48,10 +48,10 @@ exit 0
 /tmp/z.test/home/user/.config/fish/completions|56|1451875912
 <<< <<<
 
->>> Add a double quote - z add ["] >>>
+>>> Add a double quote - z add [/"] >>>
 exit 0
 --- cat ---
-"|1|1234567890
+/"|1|1234567890
 /tmp/z.test|1|1234567890
 /tmp/z.test/does/not/exist|1|1234567890
 /tmp/z.test/home/user/abcdef/abc|56|1451962485
@@ -61,11 +61,11 @@ exit 0
 /tmp/z.test/home/user/.config/fish/completions|56|1451875912
 <<< <<<
 
->>> Add a backslash - z add [\] >>>
+>>> Add a backslash - z add [/\] >>>
 exit 0
 --- cat ---
-"|1|1234567890
-\|1|1234567890
+/"|1|1234567890
+/\|1|1234567890
 /tmp/z.test|1|1234567890
 /tmp/z.test/does/not/exist|1|1234567890
 /tmp/z.test/home/user/abcdef/abc|56|1451962485
@@ -76,8 +76,8 @@ exit 0
 <<< <<<
 
 >>> List all directories by frecent - z --list [] >>>
-4               "
-4               \
+4               /"
+4               /\
 4               /tmp/z.test
 4               /tmp/z.test/does/not/exist
 4               /tmp/z.test/home/user/.config
@@ -87,8 +87,8 @@ exit 0
 224             /tmp/z.test/home/user/abcdef/abc
 224             /tmp/z.test/home/user/.config/fish/completions
 --- cat ---
-"|1|1234567890
-\|1|1234567890
+/"|1|1234567890
+/\|1|1234567890
 /tmp/z.test|1|1234567890
 /tmp/z.test/does/not/exist|1|1234567890
 /tmp/z.test/home/user/abcdef/abc|56|1451962485
@@ -100,8 +100,8 @@ exit 0
 <<< <<<
 
 >>> List all directories by rank - z --list [-r] >>>
-1               "
-1               \
+1               /"
+1               /\
 1               /tmp/z.test
 1               /tmp/z.test/does/not/exist
 1               /tmp/z.test/home/user/.config
@@ -111,8 +111,8 @@ exit 0
 56              /tmp/z.test/home/user/abcdef/abc
 56              /tmp/z.test/home/user/.config/fish/completions
 --- cat ---
-"|1|1234567890
-\|1|1234567890
+/"|1|1234567890
+/\|1|1234567890
 /tmp/z.test|1|1234567890
 /tmp/z.test/does/not/exist|1|1234567890
 /tmp/z.test/home/user/abcdef/abc|56|1451962485
@@ -125,8 +125,8 @@ exit 0
 <<< <<<
 
 >>> List all directories by timestamp - z --list [-t] >>>
-1234567890      "
-1234567890      \
+1234567890      /"
+1234567890      /\
 1234567890      /tmp/z.test
 1234567890      /tmp/z.test/does/not/exist
 1234567890      /tmp/z.test/will/be/removed
@@ -136,8 +136,8 @@ exit 0
 1452553098      /tmp/z.test/home/user/.config/fish
 1452553109      /tmp/z.test/home/user/.config
 --- cat ---
-"|1|1234567890
-\|1|1234567890
+/"|1|1234567890
+/\|1|1234567890
 /tmp/z.test|1|1234567890
 /tmp/z.test/does/not/exist|1|1234567890
 /tmp/z.test/home/user/abcdef/abc|56|1451962485
@@ -155,8 +155,8 @@ cd /tmp/z.test/home/user/abcdef/def
 exit 0
 pwd /tmp/z.test/home/user/abcdef/def
 --- cat ---
-"|1|1234567890
-\|1|1234567890
+/"|1|1234567890
+/\|1|1234567890
 /tmp/z.test|1|1234567890
 /tmp/z.test/does/not/exist|1|1234567890
 /tmp/z.test/home/user/abcdef/abc|56|1451962485
@@ -174,8 +174,8 @@ No match was found!
 exit 3
 pwd /
 --- cat ---
-"|1|1234567890
-\|1|1234567890
+/"|1|1234567890
+/\|1|1234567890
 /tmp/z.test|1|1234567890
 /tmp/z.test/does/not/exist|1|1234567890
 /tmp/z.test/home/user/abcdef/abc|56|1451962485
@@ -193,8 +193,8 @@ cd /tmp/z.test/home/user/abcdef/abc
 exit 0
 pwd /tmp/z.test/home/user/abcdef/abc
 --- cat ---
-"|1|1234567890
-\|1|1234567890
+/"|1|1234567890
+/\|1|1234567890
 /tmp/z.test|1|1234567890
 /tmp/z.test/does/not/exist|1|1234567890
 /tmp/z.test/home/user/abcdef/abc|56|1451962485
@@ -212,8 +212,8 @@ No match was found!
 exit 3
 pwd /
 --- cat ---
-"|1|1234567890
-\|1|1234567890
+/"|1|1234567890
+/\|1|1234567890
 /tmp/z.test|1|1234567890
 /tmp/z.test/does/not/exist|1|1234567890
 /tmp/z.test/home/user/abcdef/abc|56|1451962485
@@ -231,8 +231,8 @@ cd /tmp/z.test/home/user/.config/fish
 exit 0
 pwd /tmp/z.test/home/user/.config/fish
 --- cat ---
-"|1|1234567890
-\|1|1234567890
+/"|1|1234567890
+/\|1|1234567890
 /tmp/z.test|1|1234567890
 /tmp/z.test/does/not/exist|1|1234567890
 /tmp/z.test/home/user/abcdef/abc|56|1451962485
@@ -250,8 +250,8 @@ cd /tmp/z.test/home/user/.config/fish/completions
 exit 0
 pwd /tmp/z.test/home/user/.config/fish/completions
 --- cat ---
-"|1|1234567890
-\|1|1234567890
+/"|1|1234567890
+/\|1|1234567890
 /tmp/z.test|1|1234567890
 /tmp/z.test/does/not/exist|1|1234567890
 /tmp/z.test/home/user/abcdef/abc|56|1451962485
@@ -269,8 +269,8 @@ cd /tmp/z.test/home/user/.config/fish/completions
 exit 0
 pwd /tmp/z.test/home/user/.config/fish/completions
 --- cat ---
-"|1|1234567890
-\|1|1234567890
+/"|1|1234567890
+/\|1|1234567890
 /tmp/z.test|1|1234567890
 /tmp/z.test/does/not/exist|1|1234567890
 /tmp/z.test/home/user/abcdef/abc|56|1451962485
@@ -288,8 +288,8 @@ cd /tmp/z.test/home/user/.config/fish/completions
 exit 0
 pwd /tmp/z.test/home/user/.config/fish/completions
 --- cat ---
-"|1|1234567890
-\|1|1234567890
+/"|1|1234567890
+/\|1|1234567890
 /tmp/z.test|1|1234567890
 /tmp/z.test/does/not/exist|1|1234567890
 /tmp/z.test/home/user/abcdef/abc|56|1451962485
@@ -306,8 +306,8 @@ pwd /tmp/z.test/home/user/.config/fish/completions
 exit 0
 pwd /tmp
 --- cat ---
-"|1|1234567890
-\|1|1234567890
+/"|1|1234567890
+/\|1|1234567890
 /tmp/z.test|1|1234567890
 /tmp/z.test/does/not/exist|1|1234567890
 /tmp/z.test/home/user/abcdef/abc|56|1451962485
@@ -324,8 +324,8 @@ pwd /tmp
 exit 0
 pwd /tmp
 --- cat ---
-"|1|1234567890
-\|1|1234567890
+/"|1|1234567890
+/\|1|1234567890
 /tmp/z.test|1|1234567890
 /tmp/z.test/does/not/exist|1|1234567890
 /tmp/z.test/home/user/abcdef/abc|56|1451962485
@@ -342,8 +342,8 @@ pwd /tmp
 exit 0
 pwd /tmp
 --- cat ---
-"|1|1234567890
-\|1|1234567890
+/"|1|1234567890
+/\|1|1234567890
 /tmp/z.test|1|1234567890
 /tmp/z.test/does/not/exist|1|1234567890
 /tmp/z.test/home/user/abcdef/abc|56|1451962485
@@ -360,8 +360,8 @@ pwd /tmp
 exit 0
 pwd /tmp
 --- cat ---
-"|1|1234567890
-\|1|1234567890
+/"|1|1234567890
+/\|1|1234567890
 /tmp/z.test|1|1234567890
 /tmp/z.test/does/not/exist|1|1234567890
 /tmp/z.test/home/user/abcdef/abc|56|1451962485
@@ -375,8 +375,8 @@ pwd /tmp
 <<< <<<
 
 >>> Complete with all directories on empty input - z --complete [] >>>
-"
-\
+/"
+/\
 /tmp/z.test
 /tmp/z.test/does/not/exist
 /tmp/z.test/home/user/abcdef/abc
@@ -389,8 +389,8 @@ pwd /tmp
 /tmp/z.test/will/be/removed
 /tmp/z.test/will/be/removed
 --- cat ---
-"|1|1234567890
-\|1|1234567890
+/"|1|1234567890
+/\|1|1234567890
 /tmp/z.test|1|1234567890
 /tmp/z.test/does/not/exist|1|1234567890
 /tmp/z.test/home/user/abcdef/abc|56|1451962485
@@ -407,8 +407,8 @@ pwd /tmp
 >>> Complete with directories that match every pattern - z --complete [c f ns] >>>
 /tmp/z.test/home/user/.config/fish/completions
 --- cat ---
-"|1|1234567890
-\|1|1234567890
+/"|1|1234567890
+/\|1|1234567890
 /tmp/z.test|1|1234567890
 /tmp/z.test/does/not/exist|1|1234567890
 /tmp/z.test/home/user/abcdef/abc|56|1451962485
@@ -427,8 +427,8 @@ pwd /tmp
 exit 1
 pwd /
 --- cat ---
-"|1|1234567890
-\|1|1234567890
+/"|1|1234567890
+/\|1|1234567890
 /tmp/z.test|1|1234567890
 /tmp/z.test/does/not/exist|1|1234567890
 /tmp/z.test/home/user/abcdef/abc|56|1451962485
