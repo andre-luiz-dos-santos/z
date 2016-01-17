@@ -7,7 +7,7 @@ The first version supporting fish seems to be [github.com/sjl/z-fish](https://gi
 I learned about `--on-variable PWD` from the version at [github.com/roryokane/z-fish](https://github.com/roryokane/z-fish/blob/master/z.fish).
 [Fish repository ticket](https://github.com/fish-shell/fish-shell/issues/981) asking about a _z_ equivalent for fish.
 
-# Install
+## Install
 
 Clone this repository somewhere permanent, and then run the `make install` command.
 For example, to install in your home folder, run the following commands:
@@ -21,7 +21,7 @@ To learn about how the installer works, read the file _install.fish_.
 If the directory where this repository was cloned into is moved, the installer will have to be run again.
 It will then automatically overwrite the previous configuration.
 
-# Use
+## Use
 
 It's the same as all the other _z_'s you already know, except that the _awk_ code in this version is much easier to tune to your wishes (although I might be somewhat biased on that assessment :smile:).
 The shell doesn't have to be reloaded when editing the _awk_ files.
