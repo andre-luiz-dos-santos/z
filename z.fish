@@ -103,10 +103,12 @@ function z --description "Jump to a recent directory"
 			and test -f $tempfile # is regular file
 			or return 1
 
+			set --local --export HOME (z.canonicalize_path $HOME)
+
 			command awk --file $z_dir/add.awk \
 				--assign now=(date +%s) \
 				--field-separator "|" \
-				$datafile $argv > $tempfile
+				$datafile (z.canonicalize_path $argv) > $tempfile
 			and command mv --force $tempfile $datafile
 			or command rm --force $tempfile # also runs if the mv above fails
 
@@ -186,5 +188,27 @@ function z --description "Jump to a recent directory"
 			and command mv --force $tempfile $datafile
 			or command rm --force $tempfile # also runs if the mv above fails
 
+	end
+end
+
+functions --query z.canonicalize_path
+or begin
+	if test -f /bin/cygpath
+		function z.canonicalize_path
+			for directory in $argv
+				set win_path (/bin/cygpath --windows --absolute --long-name $directory)
+				set unix_path (/bin/cygpath --unix $win_path)
+				echo (command readlink --canonicalize-missing $unix_path)
+			end
+		end
+	else
+		function z.canonicalize_path
+			for directory in $argv
+				set canonical (command readlink -f $directory)
+				test -z "$canonical" # is empty
+				and echo $directory
+				or echo $canonical
+			end
+		end
 	end
 end
